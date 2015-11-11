@@ -20,7 +20,7 @@
 	<% require themedCSS('typography') %>
 	<% require themedCSS('form') %>
 	<% require themedCSS('layout') %>
-	<link rel="shortcut icon" href="$ThemeDir/images/favicon.ico" />
+	<link rel="shortcut icon" href="$ThemeDir/images/favicon.ico?v=065831e6dbb251dea4ed4fe9e74a62bca006aef9" />
 </head>
 <body class="not-available-page">
 
