@@ -35,7 +35,7 @@
 
       		<!-- PAGE CODE GOES HERE -->
       		<div class="col-xs-12">
-      			$getTableTransactions
+      			$getTableTransactions('Lanches')
       		</div>
 
       </div>
