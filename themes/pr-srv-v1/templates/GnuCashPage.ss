@@ -34,7 +34,9 @@
       <div class="row">
 
       		<!-- PAGE CODE GOES HERE -->
-      		
+      		<div class="col-xs-12">
+      			$getTableTransactions
+      		</div>
 
       </div>
 
