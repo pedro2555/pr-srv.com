@@ -5,74 +5,53 @@ class GnuCashPage extends Page {
 		'TransactionsCSV' => 'Text'
 	);
 
+	public static $has_many = array(
+		'Transactions' => 'GnuCashTransactionObject'
+	);
+
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
         $fields->addFieldToTab('Root.Main', new TextAreaField('TransactionsCSV'), 'Content');
+        $fields->addFieldToTab('Root.Transactions', new GridField('Transactions', 'Transactions', GnuCashTransactionObject::get()));
 
         return $fields;
     }
+
+	function onAfterWrite() {
+		parent::onAfterWrite();
+
+		// delete all GnuCashTransactionObject DataObjects
+		$GnuCashTransactions = GnuCashTransactionObject::get();
+		foreach ($GnuCashTransactions as $GnuCashTransaction) {
+			$GnuCashTransaction->delete();
+		}
+
+		// calculate running balances and create DataObjects
+		$runningBalances = array();
+		foreach (explode("\n", $this->TransactionsCSV) as &$line) {
+			$line = str_getcsv($line);
+
+			if ($line[7] == 'T') {
+				$GnuCashTransaction = GnuCashTransactionObject::create();
+				$GnuCashTransaction->Page = $this->ID;
+
+				$GnuCashTransaction->Date = $line[0];
+				$GnuCashTransaction->Description = $line[3];
+				$GnuCashTransaction->SourceAccount = $line[1];
+				$GnuCashTransaction->DestinationAccount = $line[6];
+				$GnuCashTransaction->Amount = (float)(str_replace(',', '.', str_replace('.', '', $line[12])));
+				if (!array_key_exists($GnuCashTransaction->SourceAccount, $runningBalances)) {
+					$runningBalances[$GnuCashTransaction->SourceAccount] = 0.0;
+				}
+				$runningBalances[$GnuCashTransaction->SourceAccount] += $GnuCashTransaction->Amount;
+				$GnuCashTransaction->Balance = $runningBalances[$GnuCashTransaction->SourceAccount];
+
+				$GnuCashTransaction->write();
+			}
+		}
+	}
 }
 
 class GnuCashPage_Controller extends Page_Controller {
-	public static $allowed_actions = array(
-		'getTableTransactions'	
-	);
-
-	public function getTableTransactions($accountName) {
-		// Final associative transactions array
-		$arrTransactions = array();
-
-		// Parse CSV data into a PHP array in ascending chronologic order
-		$arr = explode("\n", $this->TransactionsCSV);
-
-		// Calculate running balances
-		$index = 0;
-		$runningBalance = 0.0;
-		foreach ($arr as &$line) {
-			$line = str_getcsv($line);
-
-			if ($line[7] == 'T' && $line[1] == $accountName) {
-
-				$arrTransactions[$index]['Data'] = $line[0];
-				$arrTransactions[$index]['Descricao'] = $line[3];
-				$arrTransactions[$index]['Conta'] = $line[6];
-				$arrTransactions[$index]['Valor'] = (float)(str_replace(',', '.', str_replace('.', '', $line[12])));
-
-				$runningBalance += $arrTransactions[$index]['Valor'];
-				$arrTransactions[$index]['Saldo'] = $runningBalance;
-
-				$index++;
-			}
-		}
-
-		// invert array to descending chronologic order
-		$arrTransactions = array_reverse($arrTransactions);
-
-
-		$return = '<table class="table table-condensed table-hover table-striped">';
-      	$return .= '<tr><th>Data</th><th>Descrição</th><th>Conta</th><th>Valor</th><th>Saldo</th></tr>';
-
-
-
-		$arr = explode("\n", $this->TransactionsCSV);
-
-
-
-		foreach ($arrTransactions as &$line) {
-			if (number_format($line['Saldo'], 2) == "0.00")
-				$return .= '<tr class="success"><td>'.$line['Data'].'</td><td>'.$line['Descricao'].'</td><td>'.$line['Conta'].'</td><td>'.number_format($line['Valor'], 2).' Kz</td><td>'.number_format($line['Saldo'], 2).' Kz</td></tr>';
-			else
-				$return .= '<tr><td>'.$line['Data'].'</td><td>'.$line['Descricao'].'</td><td>'.$line['Conta'].'</td><td>'.number_format($line['Valor'], 2).' Kz</td><td>'.number_format($line['Saldo'], 2).' Kz</td></tr>';
-		}
-
-
-      	$return .= '</table>';
-
-      	$return .= '<h4><strong>';
-      	$return .= ($runningBalance >= 0) ? 'Total em dívida: '.number_format($runningBalance, 2).' Kz' : 'Total em crédito: '.number_format(abs($runningBalance), 2).' Kz';
-      	$return .= '</strong></h4>';
-
-      	return $return;
-	}
 } 
