@@ -27,12 +27,13 @@ class GnuCashPage extends Page {
 			$GnuCashTransaction->delete();
 		}
 
-		// calculate running balances and create DataObjects
+		// calculate running balances and create transaction DataObjects
 		$runningBalances = array();
 		$index = 0;
 		foreach (explode("\n", $this->TransactionsCSV) as &$line) {
 			$line = str_getcsv($line);
 
+			// filter out splits from transaction lines
 			if ($line[7] == 'T') {
 				$GnuCashTransaction = GnuCashTransactionObject::create();
 				$GnuCashTransaction->Page = $this->ID;
@@ -51,6 +52,15 @@ class GnuCashPage extends Page {
 
 				$GnuCashTransaction->write();
 			}
+		}
+
+		foreach ($runningBalances as $accountName => $balance) {
+			// $account = GnuCashAccountPage::get()->where(
+			// 	'Title = '''.$accountName.''' and ParentID = '.$this->ID
+			// )->first();
+
+			// $account->Balance = $balance;
+			// $account->write();
 		}
 	}
 }

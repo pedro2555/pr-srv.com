@@ -2,13 +2,15 @@
 
 class GnuCashAccountPage extends Page {
 	static $db = array(
-		'CurrencySymbol' => 'Varchar(10)'
+		'CurrencySymbol' => 'Varchar(10)',
+		'Balance' => 'Currency'
 	);
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
         $fields->addFieldToTab('Root.Main', new TextField('CurrencySymbol'), 'Content');
+        $fields->addFieldToTab('Root.Main', new CurrencyField('Balance'), 'Content');
 
         return $fields;
     }
