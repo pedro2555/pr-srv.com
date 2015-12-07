@@ -35,7 +35,19 @@
 		<div class="row">
 			<!-- PAGE CODE GOES HERE -->
 			<div class="col-xs-12">
-				<h1>$Title</h1>
+				<h1 align="center">$Title</h1>
+			</div>
+			<% control Parent %>
+				<div class="col-xs-4">
+					<h3>Contas</h3>
+					<div class="list-group">
+						<% loop Children %>
+							<a href="$Link" class="list-group-item"><span class="badge"> Kz</span>$Title</a>
+						<% end_loop %>
+					</div>
+				</div>
+			<% end_control %>
+			<div class="col-xs-8">
 				<div class="jumbotron">
 					<% if $IsBalanceCredit %>
 						<h2>Total em crédito <strong>$Balance</strong></h2>
@@ -43,10 +55,7 @@
 						<h2>Total em dívida <strong>$Balance</strong></h2>
 					<% end_if %>
 				</div>
-
 			</div>
-
-
 
 			<div class="col-xs-12">
 				<h2>Detalhe</h2>
