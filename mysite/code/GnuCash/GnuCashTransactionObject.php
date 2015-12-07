@@ -2,6 +2,7 @@
 
 class GnuCashTransactionObject extends DataObject {
 	static $db = array(
+		'Index' => 'Int',
 		'Date' => 'Date',
 		'Description' => 'Text',
 		'SourceAccount' => 'Text',

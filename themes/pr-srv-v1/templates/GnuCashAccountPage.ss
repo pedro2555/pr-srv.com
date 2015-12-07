@@ -8,7 +8,7 @@
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %> &raquo; $SiteConfig.Title</title>
+	<title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %></title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="apple-touch-icon" href="$ThemeDir/apple-touch-icon.png">
@@ -34,21 +34,39 @@
 	<div class="container">
 		<div class="row">
 			<!-- PAGE CODE GOES HERE -->
+			<div class="col-xs-12">
+				<h1>$Title</h1>
+				<div class="jumbotron">
+					<% if $IsBalanceCredit %>
+						<h2>Total em crédito <strong>$Balance</strong></h2>
+					<% else %>
+						<h2>Total em dívida <strong>$Balance</strong></h2>
+					<% end_if %>
+				</div>
+
+			</div>
+
+
 
 			<div class="col-xs-12">
+				<h2>Detalhe</h2>
 				<table class="table table-condensed table-hover table-striped">
 					<thead>
-						<tr>
+						<tr style="font-weight: bold">
 							<td>Data</td>
 							<td>Descrição</td>
 							<td>Conta de Destino</td>
-							<td>Valor</td>
-							<td>Saldo</td>
+							<td align="right">Valor</td>
+							<td align="right">Saldo</td>
 						</tr>					
 					</thead>
 					<tbody>
 						<% loop $Transactions %>
-							<tr>
+							<% if $Balance == "0.00" %>
+								<tr class="warning">
+							<% else %>
+								<tr>
+							<% end_if %>
 								<td>$Date</td>
 								<td>$Description</td>
 								<td>$DestinationAccount</td>

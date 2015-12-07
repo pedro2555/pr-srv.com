@@ -29,12 +29,14 @@ class GnuCashPage extends Page {
 
 		// calculate running balances and create DataObjects
 		$runningBalances = array();
+		$index = 0;
 		foreach (explode("\n", $this->TransactionsCSV) as &$line) {
 			$line = str_getcsv($line);
 
 			if ($line[7] == 'T') {
 				$GnuCashTransaction = GnuCashTransactionObject::create();
 				$GnuCashTransaction->Page = $this->ID;
+				$GnuCashTransaction->Index = $index++;
 
 				$GnuCashTransaction->Date = $line[0];
 				$GnuCashTransaction->Description = $line[3];
