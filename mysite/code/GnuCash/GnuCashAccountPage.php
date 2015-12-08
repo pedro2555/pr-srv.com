@@ -3,7 +3,7 @@
 class GnuCashAccountPage extends Page {
 	static $db = array(
 		'CurrencySymbol' => 'Varchar(10)',
-		'Balance' => 'Currency'
+		'Balance' => 'Decimal'
 	);
 
     public function getCMSFields() {
@@ -30,28 +30,14 @@ class GnuCashAccountPage_Controller extends Page_Controller {
 				'Date' => $GnuCashTransaction->Date,
 				'Description' => $GnuCashTransaction->Description,
 				'DestinationAccount' => $GnuCashTransaction->DestinationAccount,
-				'Amount' => number_format($GnuCashTransaction->Amount, 2).' '.$this->CurrencySymbol,
-				'Balance' => number_format($GnuCashTransaction->Balance, 2).' '.$this->CurrencySymbol
+				'Amount' => $GnuCashTransaction->Amount,
+				'AmountNice' => number_format($GnuCashTransaction->Amount, 2).' '.$this->CurrencySymbol,
+				'Balance' => $GnuCashTransaction->Balance,
+				'BalanceNice' => number_format($GnuCashTransaction->Balance, 2).' '.$this->CurrencySymbol
 			]));
 		}
 
 		return $transactions;
-	}
-
-	public function Balance() {
-		return number_format(abs(GnuCashTransactionObject::get()->filter(array(
-			'SourceAccount' => $this->Title
-		))->sort('Index', 'DESC')->first()->Balance), 2).' '.$this->CurrencySymbol;
-	}
-
-	public function IsBalanceCredit() {
-		$balance = GnuCashTransactionObject::get()->filter(array(
-			'SourceAccount' => $this->Title
-		))->sort('Index', 'DESC')->first()->Balance;
-		if ($balance >= 0) {
-			return false;
-		}
-		return true;
 	}
 
 }

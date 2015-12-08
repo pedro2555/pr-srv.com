@@ -42,19 +42,18 @@
 					<h3>Contas</h3>
 					<div class="list-group">
 						<% loop Children %>
-							<a href="$Link" class="list-group-item"><span class="badge">$Balance Kz</span>$Title</a>
+							<a href="$Link" class="list-group-item"><span class="badge">$Balance.Nice $CurrencySymbol</span>$Title</a>
 						<% end_loop %>
 					</div>
 				</div>
 			<% end_control %>
+
+
+
 			<div class="col-xs-8">
 				<h3>Visão Geral</h3>
 				<div class="jumbotron">
-					<% if $IsBalanceCredit %>
-						<h2>Total em crédito <strong>$Balance</strong></h2>
-					<% else %>
-						<h2>Total em dívida <strong>$Balance</strong></h2>
-					<% end_if %>
+					<h2>Total em crédito/dívida <strong>$Balance.Nice $CurrencySymbol</strong></h2>
 				</div>
 			</div>
 
@@ -80,8 +79,8 @@
 								<td>$Date</td>
 								<td>$Description</td>
 								<td>$DestinationAccount</td>
-								<td align="right">$Amount</td>
-								<td align="right">$Balance</td>
+								<td align="right">$AmountNice</td>
+								<td align="right">$BalanceNice</td>
 							</tr>
 						<% end_loop %>
 					</tbody>
