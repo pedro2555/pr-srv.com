@@ -42,12 +42,13 @@
 					<h3>Contas</h3>
 					<div class="list-group">
 						<% loop Children %>
-							<a href="$Link" class="list-group-item"><span class="badge"> Kz</span>$Title</a>
+							<a href="$Link" class="list-group-item"><span class="badge">$Balance Kz</span>$Title</a>
 						<% end_loop %>
 					</div>
 				</div>
 			<% end_control %>
 			<div class="col-xs-8">
+				<h3>Visão Geral</h3>
 				<div class="jumbotron">
 					<% if $IsBalanceCredit %>
 						<h2>Total em crédito <strong>$Balance</strong></h2>

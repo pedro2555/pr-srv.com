@@ -55,12 +55,15 @@ class GnuCashPage extends Page {
 		}
 
 		foreach ($runningBalances as $accountName => $balance) {
-			// $account = GnuCashAccountPage::get()->where(
-			// 	'Title = '''.$accountName.''' and ParentID = '.$this->ID
-			// )->first();
+			$account = GnuCashAccountPage::get()->filter(array(
+				'Title' => $accountName,
+				'ParentID' => $this->ID
+			));
 
-			// $account->Balance = $balance;
-			// $account->write();
+			foreach ($account as $a) {
+				$a->Balance = $balance;
+				$a->write();
+			}
 		}
 	}
 }
