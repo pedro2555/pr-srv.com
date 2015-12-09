@@ -53,12 +53,12 @@
 			<div class="col-xs-8">
 				<h3>Visão Geral</h3>
 				<div class="jumbotron">
-					<h2>Total em crédito/dívida <strong>$Balance.Nice $CurrencySymbol</strong></h2>
+					<h2><% if $Balance < 0.0 %>A receber<% else %>A pagar<% end_if%> <strong>$Balance.Nice $CurrencySymbol</strong></h2>
 				</div>
 			</div>
 
 			<div class="col-xs-12">
-				<h2>Detalhe</h2>
+				<h3>Detalhe</h3>
 				<table class="table table-condensed table-hover table-striped">
 					<thead>
 						<tr style="font-weight: bold">
