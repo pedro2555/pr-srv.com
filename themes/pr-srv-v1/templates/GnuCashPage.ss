@@ -35,7 +35,12 @@
 
       		<!-- PAGE CODE GOES HERE -->
       		<div class="col-xs-12">
-      			$getTableTransactions('Lanches')
+            <h3>Contas</h3>
+            <div class="list-group">
+              <% loop Children %>
+                <a href="$Link" class="list-group-item"><span class="badge">$Balance.Nice $CurrencySymbol</span>$Title</a>
+              <% end_loop %>
+            </div>
       		</div>
 
       </div>
