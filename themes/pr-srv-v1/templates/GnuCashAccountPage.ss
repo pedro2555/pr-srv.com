@@ -13,6 +13,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="apple-touch-icon" href="$ThemeDir/apple-touch-icon.png">
 
+	<link rel="shortcut icon" href="$ThemeDir/images/favicon.ico?v=065831e6dbb251dea4ed4fe9e74a62bca006aef9" />
+
 	<link rel="stylesheet" href="$ThemeDir/css/bootstrap.min.css">
 	<style>
 		body {
@@ -33,12 +35,24 @@
 
 	<div class="container">
 		<div class="row">
+
 			<!-- PAGE CODE GOES HERE -->
 			<div class="col-xs-12">
 				<h1 align="center">$Title</h1>
 			</div>
+
+			<div class="col-xs-12 col-md-8">
+				<h3>Visão Geral</h3>
+				<div class="jumbotron">
+					<h2><% if $Balance < 0.0 %>A receber<% else %>A pagar<% end_if%> <strong>$Balance.Nice $CurrencySymbol</strong></h2>
+
+					<hr>
+					$Content
+				</div>
+			</div>
+
 			<% control Parent %>
-				<div class="col-xs-4">
+				<div class="col-xs-12 col-md-4">
 					<h3>Contas</h3>
 					<div class="list-group">
 						<% loop Children %>
@@ -47,15 +61,6 @@
 					</div>
 				</div>
 			<% end_control %>
-
-
-
-			<div class="col-xs-8">
-				<h3>Visão Geral</h3>
-				<div class="jumbotron">
-					<h2><% if $Balance < 0.0 %>A receber<% else %>A pagar<% end_if%> <strong>$Balance.Nice $CurrencySymbol</strong></h2>
-				</div>
-			</div>
 
 			<div class="col-xs-12">
 				<h3>Detalhe</h3>
@@ -88,6 +93,10 @@
 			</div>
 
 		</div>
+
+		<footer>
+			<p>$Title</p>
+		</footer>
 	</div>
 	<script src="$ThemeDir/js/vendor/jquery-1.11.2.min.js"></script>
 

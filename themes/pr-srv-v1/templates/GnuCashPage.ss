@@ -10,6 +10,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="$ThemeDir/apple-touch-icon.png">
+        
+        <link rel="shortcut icon" href="$ThemeDir/images/favicon.ico?v=065831e6dbb251dea4ed4fe9e74a62bca006aef9" />
 
         <link rel="stylesheet" href="$ThemeDir/css/bootstrap.min.css">
         <style>
