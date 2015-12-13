@@ -64,7 +64,7 @@
 
 			<div class="col-xs-12">
 				<h3>Detalhe</h3>
-				<table class="table table-condensed table-hover table-striped">
+				<table class="table table-condensed table-hover table-striped table-responsive">
 					<thead>
 						<tr style="font-weight: bold">
 							<td>Data</td>
