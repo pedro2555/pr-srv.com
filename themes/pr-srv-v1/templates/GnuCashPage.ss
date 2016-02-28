@@ -36,7 +36,11 @@
       <div class="row">
 
       		<!-- PAGE CODE GOES HERE -->
-      		<div class="col-xs-12">
+          <% if CurrentMember %>
+      		  <a href="{$Link}recalc">Recalcular</a>
+          <% end_if %>
+
+          <div class="col-xs-12">
             <h3>Contas</h3>
             <div class="list-group">
               <% loop Children %>
