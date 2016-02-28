@@ -43,7 +43,12 @@ class GnuCashPage extends Page {
 				$GnuCashTransaction->Description = $line[3];
 				$GnuCashTransaction->SourceAccount = $line[1];
 				$GnuCashTransaction->DestinationAccount = $line[6];
-				$GnuCashTransaction->Amount = (float)(str_replace(',', '.', str_replace('.', '', preg_replace('/\s+/u', '', $line[12]))));
+				//
+				// Parse decimal and thousands separators
+				//
+				// Remove commas (,)
+				$line[12] = str_replace(',', '', $line[12]); 
+				$GnuCashTransaction->Amount = $line[12];
 				if (!array_key_exists($GnuCashTransaction->SourceAccount, $runningBalances)) {
 					$runningBalances[$GnuCashTransaction->SourceAccount] = 0.0;
 				}
