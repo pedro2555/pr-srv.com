@@ -20,11 +20,26 @@ class GnuCashPage extends Page {
 
 	function onAfterWrite() {
 		parent::onAfterWrite();
+	}
+}
+
+class GnuCashPage_Controller extends Page_Controller {
+
+	public static $allowed_actions = array(
+		'recalc'
+	);
+
+	public function recalc() {
 
 		// delete all GnuCashTransactionObject DataObjects
 		$GnuCashTransactions = GnuCashTransactionObject::get();
 		foreach ($GnuCashTransactions as $GnuCashTransaction) {
 			$GnuCashTransaction->delete();
+		}
+		// reset all account page balances
+		foreach (GnuCashAccountPage::get()->filter(array('ParentID' => $this->ID)) as $Account) {
+			$Account->Balance = 0.0;
+			$Account->write();
 		}
 
 		// calculate running balances and create transaction DataObjects
@@ -47,8 +62,9 @@ class GnuCashPage extends Page {
 				// Parse decimal and thousands separators
 				//
 				// Remove commas (,)
-				$line[12] = str_replace(',', '', $line[12]); 
+				$line[12] = str_replace(',', '', $line[12]);
 				$GnuCashTransaction->Amount = $line[12];
+
 				if (!array_key_exists($GnuCashTransaction->SourceAccount, $runningBalances)) {
 					$runningBalances[$GnuCashTransaction->SourceAccount] = 0.0;
 				}
@@ -70,8 +86,7 @@ class GnuCashPage extends Page {
 				$a->write();
 			}
 		}
-	}
-}
 
-class GnuCashPage_Controller extends Page_Controller {
+		$this::redirectBack();
+	}
 } 
